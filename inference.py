@@ -2,6 +2,7 @@
 
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt 
 import os
 from glob import glob
 import scipy.io as sio
@@ -21,7 +22,6 @@ from config.config import FLAGS
 
 def main(args):
     if args.isShow or args.isTexture:
-        import cv2
         from utils.cv_plot import plot_kpt, plot_vertices, plot_pose_box
 
     # ---- transform
@@ -125,11 +125,23 @@ def main(args):
         if args.isShow:
             # ---------- Plot
             image_pose = plot_pose_box(image, camera_matrix, kpt)
-            cv2.imshow('sparse alignment', plot_kpt(image, kpt))
-            cv2.imshow('dense alignment', plot_vertices(image, vertices))
-            cv2.imshow('pose', plot_pose_box(image, camera_matrix, kpt))
-            cv2.waitKey(0)
-
+            # cv2.imshow('sparse alignment', plot_kpt(image, kpt))
+            # cv2.imshow('dense alignment', plot_vertices(image, vertices))
+            # cv2.imshow('pose', plot_pose_box(image, camera_matrix, kpt))
+            # cv2.waitKey(0)
+            cv2.imwrite(os.path.join(save_folder, 'sparse.jpg'), plot_kpt(image, kpt))
+            cv2.imwrite(os.path.join(save_folder, 'dense1.jpg'), plot_vertices(image, vertices))
+            cv2.imwrite(os.path.join(save_folder, 'pose.jpg'), plot_pose_box(image, camera_matrix, kpt))
+            # plt.figure()
+            # plt.subplot(2,2,1)
+            # plt.imshow(cv2.cvtColor(image,cv2.COLOR_BGR2RGB))
+            # plt.subplot(2,2,2)
+            # plt.imshow(cv2.cvtColor(plot_kpt(image, kpt),cv2.COLOR_BGR2RGB))
+            # plt.subplot(2,2,3)
+            # plt.imshow(cv2.cvtColor(plot_vertices(image, vertices),cv2.COLOR_BGR2RGB))
+            # plt.subplot(2,2,4)
+            # plt.imshow(cv2.cvtColor(plot_pose_box(image, camera_matrix, kpt),cv2.COLOR_BGR2RGB))
+            # plt.show()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
